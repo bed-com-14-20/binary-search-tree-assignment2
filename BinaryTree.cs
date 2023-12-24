@@ -3,68 +3,68 @@ public class BinaryTree<T> where T : IComparable<T>
     private Node<T> root;
 
     // Insert method
-    public void Insert(T data)
+     public void Insert(T data)
     {
-        root = InsertRec(root, data);
+        root = Insert_Operation(root, data);
     }
 
-    // Recursive helper method for Insert
-    private Node<T> InsertRec(Node<T> node, T data)
+    // method for Insert with age-based sorting
+    private Node<T> Insert_Operation(Node<T> node, T data)
     {
         if (node == null)
             return new Node<T>(data);
 
-        int compareResult = data.CompareTo(node.Data);
-        if (compareResult < 0)
-            node.Left = InsertRec(node.Left, data);
-        else if (compareResult > 0)
-            node.Right = InsertRec(node.Right, data);
+        int Result = data.CompareTo(node.Data);
+        if (Result < 0)
+            node.Left = Insert_Operation(node.Left, data);
+        else if (Result > 0)
+            node.Right = Insert_Operation(node.Right, data);
 
         return node;
     }
 
-    // Search method
+    // Search method with age-based sorting
     public bool Search(T data, out Node<T> foundNode, out Node<T> parentNode)
     {
         foundNode = null;
         parentNode = null;
-        return SearchRec(root, data, ref foundNode, ref parentNode);
+        return Search_Operation(root, data, ref foundNode, ref parentNode);
     }
 
-    // Recursive helper method for Search
-    private bool SearchRec(Node<T> node, T data, ref Node<T> foundNode, ref Node<T> parentNode)
+    // helper method for Search with age-based sorting
+    private bool Search_Operation(Node<T> node, T data, ref Node<T> foundNode, ref Node<T> parentNode)
     {
         if (node == null)
             return false;
 
-        int compareResult = data.CompareTo(node.Data);
-        if (compareResult == 0)
+        int Result = data.CompareTo(node.Data);
+        if (Result == 0)
         {
             foundNode = node;
             return true;
         }
 
         parentNode = node;
-        return SearchRec(compareResult < 0 ? node.Left : node.Right, data, ref foundNode, ref parentNode);
+        return Search_Operation(Result < 0 ? node.Left : node.Right, data, ref foundNode, ref parentNode);
     }
 
-    // Remove method
+    // Remove method with age-based sorting
     public void Remove(T data)
     {
-        root = RemoveRec(root, data);
+        root = Remove_Operation(root, data);
     }
 
-    // Recursive helper method for Remove
-    private Node<T> RemoveRec(Node<T> node, T data)
+    // helper method for Remove with age-based sorting
+    private Node<T> Remove_Operation(Node<T> node, T data)
     {
         if (node == null)
             return node;
 
         int compareResult = data.CompareTo(node.Data);
         if (compareResult < 0)
-            node.Left = RemoveRec(node.Left, data);
+            node.Left = Remove_Operation(node.Left, data);
         else if (compareResult > 0)
-            node.Right = RemoveRec(node.Right, data);
+            node.Right = Remove_Operation(node.Right, data);
         else
         {
             if (node.Left == null)
@@ -72,15 +72,15 @@ public class BinaryTree<T> where T : IComparable<T>
             else if (node.Right == null)
                 return node.Left;
 
-            node.Data = MinValue(node.Right);
-            node.Right = RemoveRec(node.Right, node.Data);
+            node.Data = Minimum_Value(node.Right);
+            node.Right = Remove_Operation(node.Right, node.Data);
         }
 
         return node;
     }
 
     // Helper method to find the minimum value in a subtree
-    private T MinValue(Node<T> node)
+    private T Minimum_Value(Node<T> node)
     {
         T minValue = node.Data;
         while (node.Left != null)
@@ -91,7 +91,7 @@ public class BinaryTree<T> where T : IComparable<T>
         return minValue;
     }
 
-    // Simplified InorderTraversal method
+    //  InorderTraversal method
     public void PrintInorder()
     {
         Console.Write("Inorder Traversal: ");
@@ -99,7 +99,8 @@ public class BinaryTree<T> where T : IComparable<T>
         Console.WriteLine();
     }
 
-    // Recursive helper method for InorderTraversal
+    // helper method for InorderTraversal
+    // visit left child, root and right child
     private void InorderTraversal(Node<T> node)
     {
         if (node != null)
@@ -109,8 +110,7 @@ public class BinaryTree<T> where T : IComparable<T>
             InorderTraversal(node.Right);
         }
     }
-
-    // Simplified PostorderTraversal method
+    //PostorderTraversal method
     public void PrintPostorder()
     {
         Console.Write("Postorder Traversal: ");
@@ -118,7 +118,8 @@ public class BinaryTree<T> where T : IComparable<T>
         Console.WriteLine();
     }
 
-    // Recursive helper method for PostorderTraversal
+    // helper method for PostorderTraversal
+    //vist left, right child and root
     private void PostorderTraversal(Node<T> node)
     {
         if (node != null)

@@ -1,45 +1,54 @@
-﻿ class Program
+﻿using System;
+
+class Program
 {
     static void Main()
     {
-        // Initialize BinaryTree of Persons
+        // Instance BinaryTree of Persons
         BinaryTree<Person> personTree = new BinaryTree<Person>();
-        // infirnite loop that 
+        // infirnite loop for main menue
         while (true)
         {
             // Display menu options
+            Console.WriteLine("\n");
             Console.WriteLine("Select the following options for operations:");
             Console.WriteLine("1. Add a person");
             Console.WriteLine("2. Search for a person");
             Console.WriteLine("3. Print Inorder Traversal");
             Console.WriteLine("4. Print Postorder Traversal");
             Console.WriteLine("5. Remove a person");
-            Console.WriteLine("6. Exit");
+            Console.WriteLine("6. Exit\n");
 
-            Console.Write("Enter your choice (1-6): ");
-            string choice = Console.ReadLine();
+            Console.Write("Enter your choice (1-6):");
+            string Selection = Console.ReadLine();
 
-            switch (choice)
+            switch (Selection)
             {
                 case "1":
-                    AddPerson(personTree);
+                    AddPerson(personTree); // calling add person method
                     break;
+
                 case "2":
-                    SearchPerson(personTree);
+                    SearchPerson(personTree); // calling searchperson method
                     break;
+
                 case "3":
-                    personTree.PrintInorder();
+                    personTree.PrintInorder(); // calling person print inoroder traversal
                     break;
+
                 case "4":
-                    personTree.PrintPostorder();
+                    personTree.PrintPostorder(); //  post order
                     break;
+
                 case "5":
-                    RemovePerson(personTree);
+                    RemovePerson(personTree); // calling remove person method
                     break;
+
                 case "6":
-                    Console.WriteLine("Exiting the program.");
+                    Console.WriteLine("Exiting the program."); // exit
                     Environment.Exit(0);
                     break;
+
                 default:
                     Console.WriteLine("Invalid choice. Please enter a number between 1 and 6.");
                     break;
@@ -50,49 +59,54 @@
     // Function to add a person
     static void AddPerson(BinaryTree<Person> personTree)
     {
+        // input firstname
         Console.Write("Enter firstname: ");
-        string name = Console.ReadLine();
+        string firstName = Console.ReadLine();
 
-        Console.Write("Enter lastname:  ");
+        // input lastsname
+        Console.Write("Enter lastname: ");
         string lastName = Console.ReadLine();
 
+        // input age
         Console.Write("Enter age: ");
         int age = int.Parse(Console.ReadLine());
 
+        // input id
         Console.Write("Enter unique ID: ");
         string uniqueId = Console.ReadLine();
 
-        Person newPerson = new Person(name, lastName, age, uniqueId);
+        // add person object 
+        Person Add_person = new Person(firstName, lastName, age, uniqueId);
 
-        if (personTree.Search(newPerson, out _, out _))
+        // checking if theid already exist
+        if (personTree.Search(Add_person, out _, out _))
         {
             Console.WriteLine("Person with the same unique ID already exists.");
         }
         else
         {
-            personTree.Insert(newPerson);
+            personTree.Insert(Add_person);
             Console.WriteLine("Person added successfully.");
 
-            // Write the person details to a Notepad file
-             WriteToNotepad(name, lastName, age, uniqueId);
+            // Writing person details to a Notepad file
+             WriteToNotepad(firstName, lastName, age, uniqueId);
 
         }
     }
 
-    // Function to search for a person
-    static void SearchPerson(BinaryTree<Person> personTree)
-    {
-        Console.Write("Enter unique ID to search: ");
-        string searchId = Console.ReadLine();
 
-        if (personTree.Search(new Person("", "", 0, searchId), out var foundNode, out _))
-        {
-            Console.WriteLine($"Person found: {foundNode.Data}");
-        }
-        else
-        {
-            Console.WriteLine("Person not found");
-        }
+    // Function to write to Notepad file
+     static void WriteToNotepad(string firstName, string lastName, int age, string uniqueId)
+    {
+        string file_Path = "COM314.txt";
+
+        // Formatingg the entry with each detail on a new line
+        string Entry_Order = $"{firstName}\n{lastName}\n{age}\n{uniqueId}";
+
+        // entry to the text file with an empty line separator
+        File.AppendAllText(file_Path, Entry_Order + Environment.NewLine + Environment.NewLine);
+
+        Console.WriteLine($"Person details written to {file_Path}");
     }
 
     // Function to remove a person
@@ -112,29 +126,22 @@
         }
     }
 
-    // Function to write to Notepad
-    static void WriteToNotepad(string content)
-    {
-        string notepadPath = "COM314.txt";
-
-        using (StreamWriter sw = new StreamWriter(notepadPath, true))
-        {
-            sw.WriteLine(content);
-        }
-
-        Console.WriteLine($"Person details written to {notepadPath}");
-    }
     
-    static void WriteToNotepad(string firstName, string lastName, int age, string uniqueId)
+    // Function to search for a person
+    static void SearchPerson(BinaryTree<Person> personTree)
     {
-        string notepadPath = "notepad.txt";
+        Console.Write("Enter unique ID to search: ");
+        string Search_Identity = Console.ReadLine();
 
-        // Format the entry with each detail on a new line
-        string entry = $"{firstName}\n{lastName}\n{age}\n{uniqueId}";
-
-        // Append the entry to the text file with an empty line separator
-        File.AppendAllText(notepadPath, entry + Environment.NewLine + Environment.NewLine);
-
-        Console.WriteLine($"Person details written to {notepadPath}");
+        if (personTree.Search(new Person("", "", 0, Search_Identity), out var Available_Node, out _))
+        {
+            Console.WriteLine($"Person found: {Available_Node.Data}");
+        }
+        else
+        {
+            Console.WriteLine("Person not found");
+        }
     }
-}
+
+}    
+

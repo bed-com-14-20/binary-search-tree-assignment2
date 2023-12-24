@@ -1,1 +1,20 @@
-FGHJK ERG, Age: 23, ID: 123456
+Evan
+chimwaza
+30
+123abc
+
+peter
+sukwala
+15
+xyz123
+
+esther
+sukwala
+24
+mno456
+
+peter
+makaka
+24
+mnb543
+

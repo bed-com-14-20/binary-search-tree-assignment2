@@ -2,44 +2,43 @@
 
 public class Person : IComparable<Person>
 {
+    // gettter and setters for person details
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public int Age { get; set; }
-    private string _id;
+    private readonly string _id;
 
-
-    // making sure that the id should be  6 characters long
-    public string ID
+    
+    public string Identity_number
     {
         get => _id;
-        set
-        {
-            if (value.Length >= 6)
-            {
-                _id = value;
-            }
-            else
-            {
-                throw new ArgumentException("ID must be at least 6 characters long.");
-            }
-        }
     }
-    // arg constructer
+
+    // arg constructor
     public Person(string firstName, string lastName, int age, string id)
     {
         FirstName = firstName;
         LastName = lastName;
         Age = age;
-        ID = id; // validation
+    // making sure that the id should be 6 characters long
+        if (id.Length > 5)
+        {
+            _id = id;
+        }
+        else
+        {
+            throw new ArgumentException("ID must be at least 6 characters long.");
+        }
     }
+
     // comparing ids for 2 persons
     public int CompareTo(Person other)
     {
-        return ID.CompareTo(other.ID);
+        return Identity_number.CompareTo(other.Identity_number);
     }
 
     public override string ToString()
     {
-        return $"{FirstName} {LastName}, Age: {Age}, ID: {ID}";
+        return $"{FirstName} {LastName}, Age: {Age}, ID: {Identity_number}";
     }
 }
