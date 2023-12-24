@@ -1,14 +1,14 @@
- using System;
-
 public class BinaryTree<T> where T : IComparable<T>
 {
     private Node<T> root;
 
+    // Insert method
     public void Insert(T data)
     {
         root = InsertRec(root, data);
     }
 
+    // Recursive helper method for Insert
     private Node<T> InsertRec(Node<T> node, T data)
     {
         if (node == null)
@@ -23,6 +23,7 @@ public class BinaryTree<T> where T : IComparable<T>
         return node;
     }
 
+    // Search method
     public bool Search(T data, out Node<T> foundNode, out Node<T> parentNode)
     {
         foundNode = null;
@@ -30,6 +31,7 @@ public class BinaryTree<T> where T : IComparable<T>
         return SearchRec(root, data, ref foundNode, ref parentNode);
     }
 
+    // Recursive helper method for Search
     private bool SearchRec(Node<T> node, T data, ref Node<T> foundNode, ref Node<T> parentNode)
     {
         if (node == null)
@@ -46,11 +48,13 @@ public class BinaryTree<T> where T : IComparable<T>
         return SearchRec(compareResult < 0 ? node.Left : node.Right, data, ref foundNode, ref parentNode);
     }
 
+    // Remove method
     public void Remove(T data)
     {
         root = RemoveRec(root, data);
     }
 
+    // Recursive helper method for Remove
     private Node<T> RemoveRec(Node<T> node, T data)
     {
         if (node == null)
@@ -75,6 +79,7 @@ public class BinaryTree<T> where T : IComparable<T>
         return node;
     }
 
+    // Helper method to find the minimum value in a subtree
     private T MinValue(Node<T> node)
     {
         T minValue = node.Data;
@@ -86,37 +91,41 @@ public class BinaryTree<T> where T : IComparable<T>
         return minValue;
     }
 
-    private void InorderTraversal(Node<T> node, Action<T> action)
-    {
-        if (node != null)
-        {
-            InorderTraversal(node.Left, action);
-            action(node.Data);
-            InorderTraversal(node.Right, action);
-        }
-    }
-
+    // Simplified InorderTraversal method
     public void PrintInorder()
     {
         Console.Write("Inorder Traversal: ");
-        InorderTraversal(root, data => Console.Write($"{data} "));
+        InorderTraversal(root);
         Console.WriteLine();
     }
 
-    private void PostorderTraversal(Node<T> node, Action<T> action)
+    // Recursive helper method for InorderTraversal
+    private void InorderTraversal(Node<T> node)
     {
         if (node != null)
         {
-            PostorderTraversal(node.Left, action);
-            PostorderTraversal(node.Right, action);
-            action(node.Data);
+            InorderTraversal(node.Left);
+            Console.Write($"{node.Data} ");
+            InorderTraversal(node.Right);
         }
     }
 
+    // Simplified PostorderTraversal method
     public void PrintPostorder()
     {
         Console.Write("Postorder Traversal: ");
-        PostorderTraversal(root, data => Console.Write($"{data} "));
+        PostorderTraversal(root);
         Console.WriteLine();
+    }
+
+    // Recursive helper method for PostorderTraversal
+    private void PostorderTraversal(Node<T> node)
+    {
+        if (node != null)
+        {
+            PostorderTraversal(node.Left);
+            PostorderTraversal(node.Right);
+            Console.Write($"{node.Data} ");
+        }
     }
 }

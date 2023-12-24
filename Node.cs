@@ -1,14 +1,14 @@
- public class Node<TNodeData> where TNodeData : IComparable<TNodeData>
+ public class Node<T>
 {
-    public TNodeData Data { get; set; }
-    public Node<TNodeData>? Left { get; set; }
-    public Node<TNodeData>? Right { get; set; }
+    public T Data { get; set; }
+    public Node<T>? Left { get; set; }
+    public Node<T>? Right { get; set; }
 
-    public Node(TNodeData data)
+    // Constructor
+    public Node(T data)
     {
         Data = data;
         Left = null;
         Right = null;
     }
 }
- 
